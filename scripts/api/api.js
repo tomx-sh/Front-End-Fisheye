@@ -4,7 +4,15 @@ class Api {
      * @param {string} url 
      */
     constructor(url) {
-        this._url = url
+        if (Api.exists && Api.instance._url == url) {
+            return Api.instance
+
+        } else {
+            this._url = url
+            Api.instance = this
+            Api.exists = true
+            return this
+        }
     }
 
     async get() {
@@ -17,12 +25,13 @@ class Api {
 
 
 
-class PhotographersApi extends Api {
+export class PhotographersApi extends Api {
     /**
      * 
      * @param {string} url 
      */
-    constructor(url) {
+    constructor() {
+        const url = 'data/photographers.json'
         super(url)
     }
 
@@ -34,12 +43,13 @@ class PhotographersApi extends Api {
 
 
 
-class MediaApi extends Api {
+export class MediaApi extends Api {
     /**
      * 
      * @param {string} url 
      */
-    constructor(url) {
+    constructor() {
+        const url = 'data/photographers.json'
         super(url)
     }
 

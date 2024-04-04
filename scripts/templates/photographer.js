@@ -3,10 +3,10 @@
  * @param {Object} data
  * @returns {Object}  { name, picture, getUserCardDOM }
  */
-function photographerTemplate(data) {
+export default function photographerTemplate(data) {
 
     const { name, portrait } = data;
-    const picture = `assets/photographers/${portrait}`;
+    const picture = `assets/photographers/photographers ID Photos/${portrait}`;
 
     function getUserCardDOM() {
         // Create the DOM elements
