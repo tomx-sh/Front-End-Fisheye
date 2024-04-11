@@ -1,5 +1,10 @@
 @import url("photographer.css");
 
+* :focus {
+    outline: 2px solid #D3573C;
+    border-radius: 1rem;
+}
+
 body {
     font-family: "DM Sans", sans-serif;
     margin: 0;
@@ -42,7 +47,7 @@ h1 {
 
 .photographer_section article h2 {
     color: #D3573C;
-    font-size: 36px;
+    font-size: 2rem;
     text-align: center;
     margin-bottom: 0;
 }
@@ -55,17 +60,17 @@ h1 {
 }
 
 .photographer_section article address {
-    color: #D3573C;
-    font-size: 13px;
+    color: #7b2a18;
+    font-size: 1rem;
     font-style: normal;
 }
 
 .photographer_section article cite {
-    font-size: 10px;
+    font-size: 1rem;
     font-style: normal;
 }
 
 .photographer_section article .price {
-    font-size: 9px;
+    font-size: 0.8rem;
     color: #757575;
 }
