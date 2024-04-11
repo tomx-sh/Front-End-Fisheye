@@ -1,37 +1,84 @@
 <!DOCTYPE html>
 <html>
-  <head>
+
+<head>
     <link href="css/style.css" rel="stylesheet" type="text/css" />
     <meta charset="utf-8">
     <link rel="icon" type="image/png" href="assets/favicon.png">
     <link href="https://fonts.googleapis.com/css?family=DM+Sans&display=swap" rel="stylesheet">
     <title>Fisheye - photographe </title>
-  </head>
-  <body>
+</head>
+
+
+<body>
+    
     <header>
-      <img src="assets/images/logo.png" class="logo" />
+        <a href="index.html" aria-label="Fisheye Home Page">
+            <img src="assets/images/logo.png" class="logo" alt="fisheye logo"/>
+        </a>
     </header>
+    
+    
     <main id="main">
-      <div class="photograph-header">
-        <button class="contact_button" onclick="displayModal()">Contactez-moi</button>
-      </div>
+        
+        <section id="photographer-info">
+            
+            <div aria-label="Photographer's information">
+                <h1 id="name"></h1>
+                <address id="location"></address>
+                <cite id="tagline"></cite>
+            </div>
+            
+            <button id="contact_button" role="display contact modal" onclick="displayModal()">Contactez-moi</button>
+            
+            <img id="avatar"/>
+            
+        </section>
+        
+        
+        <section id="photographer-media">
+            
+            <nav role="filter media">
+                <label for="filter">Trier par</label>
+                <select id="filter">
+                    <option value="popularité">Popularité</option>
+                    <option value="date">Date</option>
+                    <option value="titre">Titre</option>
+                </select>
+            </nav>
+
+        </section>
+            
+            
     </main>
-    <div id="contact_modal">
-			<div class="modal">
-				<header>
-          <h2>Contactez-moi</h2>
-          <img src="assets/icons/close.svg" onclick="closeModal()" />
-        </header>
-				<form>
-					<div>
-						<label>Prénom</label>
-						<input />
-					</div>
-          <button class="contact_button">Envoyer</button>
-				</form>
-			</div>
-		</div>
-    <script src="/scripts/pages/photographer.js"></script>
-    <script src="/scripts/utils/contactForm.js"></script>
-  </body>
+        
+        
+        <!-- Modal -->
+        <div id="contact_modal">
+            <div class="modal">
+                
+                <header>
+                    <h2>Contactez-moi</h2>
+                    <img src="assets/icons/close.svg" onclick="closeModal()" />
+                </header>
+                
+                
+                <form>
+                    <div>
+                        <label>Prénom</label>
+                        <input />
+                    </div>
+                    <button class="contact_button">Envoyer</button>
+                </form>
+                
+            </div>
+        </div>
+        
+        
+        
+        <script type="module" src="/scripts/pages/photographer.js"></script>
+        <script src="/scripts/utils/contactForm.js"></script>
+        
+</body>    
 </html>
+    
