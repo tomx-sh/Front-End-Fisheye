@@ -35,9 +35,14 @@ export class PhotographersApi extends Api {
         super(url)
     }
 
-    async getPhotographers() {
+    async fetchPhotographers() {
         const data = await this.get()
         return data.photographers
+    }
+
+    async fetchPhotographerById(id) {
+        const photographers = await this.fetchPhotographers()
+        return photographers.find(photographer => photographer.id == id)
     }
 }
 
@@ -53,7 +58,7 @@ export class MediaApi extends Api {
         super(url)
     }
 
-    async getMedia() {
+    async fetchMedia() {
         const data = await this.get()
         return data.media
     }
