@@ -5,12 +5,14 @@
  */
 export default function photographerTemplate(data) {
 
-    const { portrait, name, city, country, tagline, price } = data;
+    const { portrait, name, id, city, country, tagline, price } = data;
     const picture = `assets/photographers/photographers_ID_Photos/${portrait}`;
 
     function getUserCardDOM() {
         // Create the DOM elements
         const article = document.createElement('article');
+        const link = document.createElement('a');
+        link.setAttribute('href', `./photographer.html?id=${id}`);
         const img = document.createElement('img');
         const h2 = document.createElement('h2');
         const address = document.createElement('address');
@@ -26,11 +28,12 @@ export default function photographerTemplate(data) {
         priceEl.textContent = `${price}€/jour`;
 
         // Assemble the DOM elements
-        article.appendChild(img);
-        article.appendChild(h2);
-        article.appendChild(address);
-        article.appendChild(cite);
-        article.appendChild(priceEl);
+        article.appendChild(link);
+        link.appendChild(img);
+        link.appendChild(h2);
+        link.appendChild(address);
+        link.appendChild(cite);
+        link.appendChild(priceEl);
 
         return (article);
     }
