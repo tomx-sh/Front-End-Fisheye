@@ -4,7 +4,7 @@ import photographerTemplate from "../templates/photographer.js";
 
 async function getPhotographers() {
     const api = new PhotographersApi();
-    const photographers = await api.getPhotographers();
+    const photographers = await api.fetchPhotographers();
     return ({photographers});
 }
 
