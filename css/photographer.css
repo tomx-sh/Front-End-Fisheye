@@ -37,18 +37,6 @@
     object-fit: cover;
 }
 
-#filter {
-    font-family: inherit;
-    color: white;
-    background-color: #7b2a18;
-    padding: 10px;
-    border-radius: 5px;
-}
-
-#filter option {
-    background-color: #7b2a18;
-}
-
 #contact_button {
     font-size: 20px;
     font-weight: bold;
@@ -61,6 +49,54 @@
     border-radius: 5px;
     cursor: pointer;
 }
+
+#filter {
+    font-family: inherit;
+    color: white;
+    background-color: #7b2a18;
+    padding: 10px;
+    margin: 20px;
+    border-radius: 5px;
+}
+
+/*
+#filter option {
+    background-color: #7b2a18;
+}
+*/
+
+#photo-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 3rem;
+}
+
+#photo-grid a {
+    overflow: hidden;
+    text-decoration: none;
+}
+
+#photo-grid figure {
+    margin: 0;
+}
+
+#photo-grid img {
+    width: 100%;
+    aspect-ratio: 1/1;
+    object-fit: cover;
+    border-radius: 5px;
+    cursor: pointer;
+    display: block;
+}
+
+#photo-grid .details {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #901C1C;
+    font-size: 1.2rem;
+}
+
 
 .modal {
     border-radius: 5px;

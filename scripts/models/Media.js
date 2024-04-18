@@ -1,12 +1,13 @@
 class Media {
     constructor({ id, photographerId, fileName, title, likes, date, price }) {
-        this._id = id
-        this._photographerId = photographerId
-        this._fileName = fileName
-        this._title = title
-        this._likes = likes
-        this._date = date
-        this._price = price
+        this.id = id
+        this.photographerId = photographerId
+        this.fileName = fileName
+        this.fileUrl = `assets/photographers/${photographerId}/${fileName}`
+        this.title = title
+        this.likes = likes
+        this.date = date
+        this.price = price
     }
 }
 
@@ -14,6 +15,7 @@ class Media {
 class Photo extends Media {
     constructor({id, photographerId, image, title, likes, date, price }) {
         super({ id, photographerId, fileName: image, title, likes, date, price})
+        this.type = 'photo'
     }
 }
 
@@ -21,6 +23,7 @@ class Photo extends Media {
 class Video extends Media {
     constructor({ id, photographerId, video, title, likes, date, price }) {
         super({ id, photographerId, fileName: video, title, likes, date, price })
+        this.type = 'video'
     }
 
     play() {
@@ -29,15 +32,31 @@ class Video extends Media {
 }
 
 
-class MediaFactory {
+export class MediaFactory {
     constructor(data) {
       
-      if (data.photo) {
-          return new Photo(data.id, data.photographerId, data.image, data.title, data.likes, data.date, data.price)
+      if (data.image) {
+          return new Photo({
+            id: data.id,
+            photographerId: data.photographerId,
+            image: data.image,
+            title: data.title,
+            likes: data.likes,
+            date: data.date,
+            price: data.price
+        })
   
       } else if (data.video) {
   
-          return new Video(data.id, data.photographerId, data.video, data.title, data.likes, data.date, data.price)
+            return new Video({
+                id: data.id,
+                photographerId: data.photographerId,
+                video: data.video,
+                title: data.title,
+                likes: data.likes,
+                date: data.date,
+                price: data.price
+            })
           
       } else {
           console.error('Media type not recognized', data)

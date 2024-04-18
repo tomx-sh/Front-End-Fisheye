@@ -1,4 +1,39 @@
-import { PhotographersApi } from "../api/api.js";
+import Api from "../api/api.js";
+import { MediaFactory } from "../models/Media.js";
+import mediaCard from "../templates/mediaCard.js";
+
+
+async function getPhotographer(id) {
+    const api = new Api();
+    const photographer = await api.fetchPhotographerById(id);
+    return ({photographer});
+}
+
+async function getMedia(id) {
+    const api = new Api();
+    const media = await api.fetchMediaByPhotographerId(id);
+    return ({media});
+}
+
+
+
+async function attachHeroData(photographer) {
+    // Get DOM elements
+    const nameEl = document.querySelector('#name');
+    const locationEl = document.querySelector('#location');
+    const taglineEl = document.querySelector('#tagline');
+    const avatarEl = document.querySelector('#avatar');
+
+    // Set data to DOM elements
+    nameEl.textContent = photographer.name;
+    locationEl.textContent = `${photographer.city}, ${photographer.country}`;
+    taglineEl.textContent = photographer.tagline;
+    avatarEl.src = `assets/photographers/Photographers_ID_Photos/${photographer.portrait}`;
+    avatarEl.alt = photographer.name;
+}
+    
+
+
 
 
 async function init() {
@@ -7,27 +42,27 @@ async function init() {
     const id = urlParams.get('id');
 
     // fetch data
-    const photographersApi = new PhotographersApi();
-    const photographer = await photographersApi.fetchPhotographerById(id);
-    const name = photographer.name;
-    const city = photographer.city;
-    const country = photographer.country;
-    const tagline = photographer.tagline;
-    const avatarFileName = photographer.portrait;
-
-    // Get DOM elements
-    const nameEl     = document.querySelector('#name');
-    const locationEl = document.querySelector('#location');
-    const taglineEl  = document.querySelector('#tagline');
-    const avatarEl   = document.querySelector('#avatar');
-
-    // Set data to DOM elements
-    nameEl.textContent = name;
-    locationEl.textContent = `${city}, ${country}`;
-    taglineEl.textContent = tagline;
-    avatarEl.src = `assets/photographers/Photographers_ID_Photos/${avatarFileName}`;
-    avatarEl.alt = name;
+    const { photographer } = await getPhotographer(id);
+    const { media } = await getMedia(id);
     
+    // Create media objects
+    const mediaObjects = media.map(m => new MediaFactory(m));
+
+    // Create media cards when media is a photo
+    const photoCards = mediaObjects
+        .filter(media => media.type === 'photo')
+        .map(media => mediaCard({
+            //href: `./media.html?id=${media.id}`,
+            href: `/`,
+            mediaUrl: media.fileUrl,
+            caption: media.title,
+            likes: media.likes
+        }));
+
+    // Set data to the DOM
+    attachHeroData(photographer);
+    const mediaContainer = document.querySelector('#photo-grid');
+    photoCards.forEach(card => mediaContainer.appendChild(card));
 }
 
 init();
