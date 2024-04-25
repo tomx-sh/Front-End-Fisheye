@@ -97,6 +97,14 @@
     font-size: 1.2rem;
 }
 
+#likesBtn {
+    all: unset;
+}
+
+#likesBtn:hover, #likesBtn[data-liked="true"] {
+    color: #D3573C;
+}
+
 
 .modal {
     border-radius: 5px;
