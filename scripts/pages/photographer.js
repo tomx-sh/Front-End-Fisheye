@@ -16,6 +16,48 @@ async function getMedia(id) {
     return ({media});
 }
 
+function sortMedia(criteria) {
+
+    // Get all media cards
+    const mediaCards = Array.from(document.querySelectorAll('.media-card'));
+
+    // Remove all media cards from the DOM
+    mediaCards.forEach(card => card.remove());
+
+    // Reorder media cards
+    switch (criteria) {
+        case 'popularité':
+            mediaCards.sort((a, b) => {
+                const aLikes = parseInt(a.querySelector('#likesBtn').textContent);
+                const bLikes = parseInt(b.querySelector('#likesBtn').textContent);
+                return bLikes - aLikes;
+            });
+            break;
+
+        case 'date':
+            mediaCards.sort((a, b) => {
+                //aDate = new Date(a.querySelector('.media').dataset.date);
+                //bDate = new Date(b.querySelector('.media').dataset.date);
+                //return bDate - aDate;
+                return -1;
+            })
+            break;
+
+        case 'titre':
+            mediaCards.sort((a, b) => {
+                const aTitle = a.querySelector('figcaption').textContent;
+                const bTitle = b.querySelector('figcaption').textContent;
+                return aTitle.localeCompare(bTitle);
+            });
+            break;
+    }
+
+    // Add media cards back to the DOM
+    const mediaContainer = document.querySelector('#photo-grid');
+    mediaCards.forEach(card => mediaContainer.appendChild(card));
+}
+
+
 
 async function init() {
     // Get id from search params
@@ -34,12 +76,22 @@ async function init() {
         tagline: photographer.tagline,
         portraitUrl: `assets/photographers/Photographers_ID_Photos/${photographer.portrait}`
     });
+
+    // Add event listener to the filter
+    document.getElementById('filter').addEventListener('change', (event) => {
+        console.log('sort by', event.target.value);
+        sortMedia(event.target.value);
+    });
+
     
     // Create media objects
     const mediaObjects = media.map(m => new MediaFactory(m));
 
+    // Reorder media objects by likes
+    mediaObjects.sort((a, b) => b.getLikes() - a.getLikes());
+
     // Create media cards when media is a photo
-    const photoCards = mediaObjects
+    let photoCards = mediaObjects
         .map(media => mediaCard({
             type: media.getType(),
             href: `/`,

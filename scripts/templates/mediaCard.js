@@ -6,11 +6,12 @@ export default function mediaCard({type, href, mediaUrl, caption, likes}) {
     const media     = document.createElement((type === 'video') ? 'video' : 'img');
     const details   = document.createElement('div');
     const captionEl = document.createElement('figcaption');
-    const likesBtn   = document.createElement('button');
+    const likesBtn  = document.createElement('button');
 
     // Set data to the DOM elements
     link.setAttribute('href', href);
     link.setAttribute('aria-label', caption);
+    link.setAttribute('class', 'media-card');
     media.setAttribute('class', 'media');
     media.setAttribute("src", mediaUrl);
     media.setAttribute("alt", caption);
@@ -51,5 +52,4 @@ function like(event) {
         button.textContent = likes - 1 + ' ♡';
         button.dataset.liked = 'false';
     }
-
 }
