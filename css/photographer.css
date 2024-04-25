@@ -101,7 +101,7 @@
     all: unset;
 }
 
-#likesBtn:hover, #likesBtn[data-liked="true"] {
+#likesBtn[data-liked="true"] {
     color: #D3573C;
 }
 

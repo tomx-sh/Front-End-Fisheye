@@ -45,11 +45,9 @@ function like(event) {
 
     // Depending on the state of the button, increment or decrement the number of likes
     if (button.dataset.liked === 'false') {
-        // Increment the number of likes
         button.textContent = likes + 1 + ' ♥';
         button.dataset.liked = 'true';
     } else {
-        // Decrement the number of likes
         button.textContent = likes - 1 + ' ♥';
         button.dataset.liked = 'false';
     }
