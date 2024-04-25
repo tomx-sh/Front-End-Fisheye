@@ -72,7 +72,6 @@
 }
 
 #photo-grid a {
-    overflow: hidden;
     text-decoration: none;
 }
 
@@ -98,10 +97,19 @@
 }
 
 #likesBtn {
-    all: unset;
+    background: none;
+    border: none;
+    color: inherit;
+    font: inherit;
+    cursor: pointer;
 }
 
+/*
 #likesBtn[data-liked="true"] {
+    color: #D3573C;
+}*/
+
+#likesBtn:hover {
     color: #D3573C;
 }
 

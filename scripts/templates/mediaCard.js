@@ -20,7 +20,7 @@ export default function mediaCard({type, href, mediaUrl, caption, likes}) {
     captionEl.textContent = caption;
     likesBtn.setAttribute('id', 'likesBtn');
     likesBtn.dataset.liked = 'false';
-    likesBtn.textContent = likes + ' ♥';
+    likesBtn.textContent = likes + ' ♡';
     likesBtn.addEventListener('click', like);
 
     // Assemble the DOM elements
@@ -48,7 +48,7 @@ function like(event) {
         button.textContent = likes + 1 + ' ♥';
         button.dataset.liked = 'true';
     } else {
-        button.textContent = likes - 1 + ' ♥';
+        button.textContent = likes - 1 + ' ♡';
         button.dataset.liked = 'false';
     }
 
