@@ -1,6 +1,7 @@
 import Api from "../api/api.js";
 import { MediaFactory } from "../models/Media.js";
 import mediaCard from "../templates/mediaCard.js";
+import photographerHero from "../templates/photographerHero.js";
 
 
 async function getPhotographer(id) {
@@ -16,27 +17,6 @@ async function getMedia(id) {
 }
 
 
-
-async function attachHeroData(photographer) {
-
-    // TODO: Faire un template plutôt que de manipuler le DOM directement
-
-    // Get DOM elements
-    const nameEl = document.querySelector('#name');
-    const locationEl = document.querySelector('#location');
-    const taglineEl = document.querySelector('#tagline');
-    const avatarEl = document.querySelector('#avatar');
-
-    // Set data to DOM elements
-    nameEl.textContent = photographer.name;
-    locationEl.textContent = `${photographer.city}, ${photographer.country}`;
-    taglineEl.textContent = photographer.tagline;
-    avatarEl.src = `assets/photographers/Photographers_ID_Photos/${photographer.portrait}`;
-    avatarEl.alt = photographer.name;
-}
-    
-
-
 async function init() {
     // Get id from search params
     const urlParams = new URLSearchParams(window.location.search);
@@ -45,6 +25,15 @@ async function init() {
     // fetch data
     const { photographer } = await getPhotographer(id);
     const { media } = await getMedia(id);
+
+    // Create hero
+    const hero = photographerHero({
+        name: photographer.name,
+        city: photographer.city,
+        country: photographer.country,
+        tagline: photographer.tagline,
+        portraitUrl: `assets/photographers/Photographers_ID_Photos/${photographer.portrait}`
+    });
     
     // Create media objects
     const mediaObjects = media.map(m => new MediaFactory(m));
@@ -60,7 +49,8 @@ async function init() {
         }));
 
     // Set data to the DOM
-    attachHeroData(photographer);
+    const heroContainer = document.querySelector('#photographer-info');
+    heroContainer.replaceWith(hero);
     const mediaContainer = document.querySelector('#photo-grid');
     photoCards.forEach(card => mediaContainer.appendChild(card));
 }
