@@ -40,8 +40,8 @@ async function init() {
 
     // Create media cards when media is a photo
     const photoCards = mediaObjects
-        .filter(media => media.getType() === 'photo')
         .map(media => mediaCard({
+            type: media.getType(),
             href: `/`,
             mediaUrl: media.getFileUrl(),
             caption: media.getTitle(),
