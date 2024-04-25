@@ -18,6 +18,9 @@ async function getMedia(id) {
 
 
 async function attachHeroData(photographer) {
+
+    // TODO: Faire un template plutôt que de manipuler le DOM directement
+
     // Get DOM elements
     const nameEl = document.querySelector('#name');
     const locationEl = document.querySelector('#location');
@@ -34,8 +37,6 @@ async function attachHeroData(photographer) {
     
 
 
-
-
 async function init() {
     // Get id from search params
     const urlParams = new URLSearchParams(window.location.search);
@@ -50,13 +51,12 @@ async function init() {
 
     // Create media cards when media is a photo
     const photoCards = mediaObjects
-        .filter(media => media.type === 'photo')
+        .filter(media => media.getType() === 'photo')
         .map(media => mediaCard({
-            //href: `./media.html?id=${media.id}`,
             href: `/`,
-            mediaUrl: media.fileUrl,
-            caption: media.title,
-            likes: media.likes
+            mediaUrl: media.getFileUrl(),
+            caption: media.getTitle(),
+            likes: media.getLikes()
         }));
 
     // Set data to the DOM
