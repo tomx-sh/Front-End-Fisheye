@@ -10,59 +10,65 @@ async function getPhotographer(id) {
     return ({photographer});
 }
 
+
 async function getMedia(id) {
     const api = new Api();
     const media = await api.fetchMediaByPhotographerId(id);
     return ({media});
 }
 
-function sortMedia(criteria) {
 
-    // Get all media cards
-    const mediaCards = Array.from(document.querySelectorAll('.media-card'));
+/**
+ * Sorts an array of media objects by a given criteria
+ * Criteria can be 'popularity', 'date' or 'title'
+ */
+function sortMedia({criteria, mediaObjects}) {
+    console.log('sort by', criteria);
 
-    // Remove all media cards from the DOM
-    mediaCards.forEach(card => card.remove());
+    // Clone the array to avoid side effects
+    const sortedMediaObjects = [...mediaObjects]
 
-    // Reorder media cards
     switch (criteria) {
-        case 'popularité':
-            mediaCards.sort((a, b) => {
-                const aLikes = parseInt(a.querySelector('#likesBtn').textContent);
-                const bLikes = parseInt(b.querySelector('#likesBtn').textContent);
-                return bLikes - aLikes;
-            });
+        case 'popularity':
+            sortedMediaObjects.sort((a, b) => b.getLikes() - a.getLikes());
             break;
 
         case 'date':
-            mediaCards.sort((a, b) => {
-                //aDate = new Date(a.querySelector('.media').dataset.date);
-                //bDate = new Date(b.querySelector('.media').dataset.date);
-                //return bDate - aDate;
-                return -1;
-            })
+            sortedMediaObjects.sort((a, b) => b.getDate() - a.getDate())
             break;
 
-        case 'titre':
-            mediaCards.sort((a, b) => {
-                const aTitle = a.querySelector('figcaption').textContent;
-                const bTitle = b.querySelector('figcaption').textContent;
-                return aTitle.localeCompare(bTitle);
-            });
+        case 'title':
+            sortedMediaObjects.sort((a, b) => a.getTitle().localeCompare(b.getTitle()));
             break;
     }
 
-    // Add media cards back to the DOM
-    const mediaContainer = document.querySelector('#photo-grid');
-    mediaCards.forEach(card => mediaContainer.appendChild(card));
+    return sortedMediaObjects;
 }
 
+
+/**
+ * Creates an array of DOM elements ('media cards')
+ * from an array of media objects
+ */
+function createMediaCards(mediaObjects) {
+    return mediaObjects
+        .map(media => mediaCard({
+            type: media.getType(),
+            href: `/`,
+            mediaUrl: media.getFileUrl(),
+            caption: media.getTitle(),
+            likes: media.getLikes()
+        }));
+}
 
 
 async function init() {
     // Get id from search params
     const urlParams = new URLSearchParams(window.location.search);
     const id = urlParams.get('id');
+
+    // Get filter (sorting) DOM element
+    const filterEl = document.getElementById('filter');
 
     // fetch data
     const { photographer } = await getPhotographer(id);
@@ -77,34 +83,32 @@ async function init() {
         portraitUrl: `assets/photographers/Photographers_ID_Photos/${photographer.portrait}`
     });
 
-    // Add event listener to the filter
-    document.getElementById('filter').addEventListener('change', (event) => {
-        console.log('sort by', event.target.value);
-        sortMedia(event.target.value);
-    });
-
-    
     // Create media objects
-    const mediaObjects = media.map(m => new MediaFactory(m));
+    let mediaObjects = media.map(m => new MediaFactory(m));
 
-    // Reorder media objects by likes
-    mediaObjects.sort((a, b) => b.getLikes() - a.getLikes());
+    // Sort media objects by current filter criteria
+    mediaObjects = sortMedia({criteria: filterEl.value, mediaObjects: mediaObjects});
 
-    // Create media cards when media is a photo
-    let photoCards = mediaObjects
-        .map(media => mediaCard({
-            type: media.getType(),
-            href: `/`,
-            mediaUrl: media.getFileUrl(),
-            caption: media.getTitle(),
-            likes: media.getLikes()
-        }));
+    // Create media cards from media objects
+    const mediaCards = createMediaCards(mediaObjects);
 
     // Set data to the DOM
     const heroContainer = document.querySelector('#photographer-info');
     heroContainer.replaceWith(hero);
     const mediaContainer = document.querySelector('#photo-grid');
-    photoCards.forEach(card => mediaContainer.appendChild(card));
+    mediaCards.forEach(card => mediaContainer.appendChild(card));
+
+    // Add event listener to the filter
+    filterEl.addEventListener('change', (event) => {
+        // Remove all media cards from the DOM
+        document.querySelectorAll('.media-card').forEach(card => card.remove());
+        // Sort media objects
+        const sortedMediaObjects = sortMedia({criteria: event.target.value, mediaObjects: mediaObjects});
+        // Create media cards from sorted media objects
+        const sortedMediaCards = createMediaCards(sortedMediaObjects);
+        // Add media cards back to the DOM
+        sortedMediaCards.forEach(card => mediaContainer.appendChild(card));
+    });
 }
 
 init();

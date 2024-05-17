@@ -28,7 +28,7 @@ class Media {
     getFileUrl() { return this.#fileUrl }
     getTitle() { return this.#title }
     getLikes() { return this.#likes }
-    getDate() { return this.#date }
+    getDate()  { return new Date(this.#date) }
     getPrice() { return this.#price }
 
     // Setters
