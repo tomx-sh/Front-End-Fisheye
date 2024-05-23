@@ -34,7 +34,7 @@ export default function mediaCard({type, href, mediaUrl, caption, likes}) {
     return (link);
 }
 
-
+// TODO: Ajouter un callback pour le bouton de like ?
 function like(event) {
     event.preventDefault();
 

@@ -59,11 +59,13 @@
     border-radius: 5px;
 }
 
-/*
+
 #filter option {
     background-color: #7b2a18;
+    color: blue;
+    outline: 2px solid #7b2a18;
 }
-*/
+
 
 #photo-grid {
     display: grid;
@@ -113,6 +115,18 @@
     color: #D3573C;
 }
 
+#sticky {
+    position: fixed;
+    bottom: 0;
+    right: 30px;
+    width: auto;
+    border-radius: 5px 5px 0 0;
+    padding: 0 1rem;
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    background-color: #DB8876;
+}
 
 .modal {
     border-radius: 5px;

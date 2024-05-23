@@ -62,12 +62,27 @@ function createMediaCards(mediaObjects) {
 }
 
 
+/**
+ * Sets the total likes count to the DOM sticky element
+ */
+function setLikesTotal(total) {
+    const totalLikesEl = document.getElementById('likes-total');
+    totalLikesEl.textContent = total + ' ♥';
+}
+
+
+function setPrice(price) {
+    const priceEl = document.getElementById('price');
+    priceEl.textContent = price + '€ / jour';
+}
+
+
 async function init() {
     // Get id from search params
     const urlParams = new URLSearchParams(window.location.search);
     const id = urlParams.get('id');
 
-    // Get filter (sorting) DOM element
+    // Get DOM elements
     const filterEl = document.getElementById('filter');
 
     // fetch data
@@ -82,6 +97,13 @@ async function init() {
         tagline: photographer.tagline,
         portraitUrl: `assets/photographers/Photographers_ID_Photos/${photographer.portrait}`
     });
+
+    // Set total likes
+    const totalLikes = media.reduce((acc, cur) => acc + cur.likes, 0);
+    setLikesTotal(totalLikes);
+
+    // Set price
+    setPrice(photographer.price);
 
     // Create media objects
     let mediaObjects = media.map(m => new MediaFactory(m));
