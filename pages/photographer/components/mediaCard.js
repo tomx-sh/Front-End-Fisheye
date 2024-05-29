@@ -1,4 +1,4 @@
-export default function mediaCard({type, href, mediaUrl, caption, likes}) {
+export default function mediaCard({type, href, mediaUrl, caption, likes, likeCallback}) {
 
     // Create the DOM elements
     const link      = document.createElement('a');
@@ -22,7 +22,7 @@ export default function mediaCard({type, href, mediaUrl, caption, likes}) {
     likesBtn.setAttribute('id', 'likesBtn');
     likesBtn.dataset.liked = 'false';
     likesBtn.textContent = likes + ' ♡';
-    likesBtn.addEventListener('click', like);
+    likesBtn.addEventListener('click', (event) => like(event, likeCallback));
 
     // Assemble the DOM elements
     link.appendChild(figure);
@@ -35,7 +35,7 @@ export default function mediaCard({type, href, mediaUrl, caption, likes}) {
 }
 
 // TODO: Ajouter un callback pour le bouton de like ?
-function like(event) {
+function like(event, callback) {
     event.preventDefault();
 
     // Get the button
@@ -52,4 +52,15 @@ function like(event) {
         button.textContent = likes - 1 + ' ♡';
         button.dataset.liked = 'false';
     }
+
+    // Call the callback
+    callback();
+
+    // Update the total likes count
+    /*
+    const allLikes = document.querySelectorAll('#likesBtn');
+    const totalLikes = Array.from(allLikes).reduce((acc, btn) => {
+        return acc + parseInt(btn.textContent);
+    }, 0);
+    setLikesTotal(totalLikes);*/
 }

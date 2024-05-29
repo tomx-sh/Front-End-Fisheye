@@ -1,7 +1,7 @@
-import Api from "../api/api.js";
-import { MediaFactory } from "../models/Media.js";
-import mediaCard from "../templates/mediaCard.js";
-import photographerHero from "../templates/photographerHero.js";
+import Api from "/api/api.js";
+import { MediaFactory } from "./utils/Media.js";
+import mediaCard from "./components/mediaCard.js";
+import photographerHero from "./components/photographerHero.js";
 
 
 async function getPhotographer(id) {
@@ -50,14 +50,15 @@ function sortMedia({criteria, mediaObjects}) {
  * Creates an array of DOM elements ('media cards')
  * from an array of media objects
  */
-function createMediaCards(mediaObjects) {
+function createMediaCards(mediaObjects, likeCallback) {
     return mediaObjects
         .map(media => mediaCard({
             type: media.getType(),
             href: `/`,
             mediaUrl: media.getFileUrl(),
             caption: media.getTitle(),
-            likes: media.getLikes()
+            likes: media.getLikes(),
+            likeCallback: likeCallback
         }));
 }
 
@@ -65,7 +66,7 @@ function createMediaCards(mediaObjects) {
 /**
  * Sets the total likes count to the DOM sticky element
  */
-function setLikesTotal(total) {
+export function setLikesTotal(total) {
     const totalLikesEl = document.getElementById('likes-total');
     totalLikesEl.textContent = total + ' ♥';
 }
@@ -95,7 +96,7 @@ async function init() {
         city: photographer.city,
         country: photographer.country,
         tagline: photographer.tagline,
-        portraitUrl: `assets/photographers/Photographers_ID_Photos/${photographer.portrait}`
+        portraitUrl: `/public/photographers/Photographers_ID_Photos/${photographer.portrait}`
     });
 
     // Set total likes

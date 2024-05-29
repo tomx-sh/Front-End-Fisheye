@@ -1,3 +1,12 @@
+@import url("/common.css");
+
+
+.logo {
+    height: 50px;
+    margin-left: 100px;
+}
+
+
 #contact_modal {
     display: none;
 }
@@ -59,12 +68,13 @@
     border-radius: 5px;
 }
 
-
+/*
 #filter option {
     background-color: #7b2a18;
     color: blue;
     outline: 2px solid #7b2a18;
-}
+}*/
+
 
 
 #photo-grid {

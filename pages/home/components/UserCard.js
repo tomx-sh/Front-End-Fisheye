@@ -1,8 +1,8 @@
-export default function userCard(data) {
+export default function UserCard(data) {
 
     // Get data
     const { portrait, name, id, city, country, tagline, price } = data;
-    const pictureUrl = `assets/photographers/photographers_ID_Photos/${portrait}`;
+    const pictureUrl = `/public/photographers/photographers_ID_Photos/${portrait}`;
 
     // Create the DOM elements
     const article   = document.createElement('article');
@@ -14,7 +14,7 @@ export default function userCard(data) {
     const priceEl   = document.createElement('p');
     
     // Set data to the DOM elements
-    link.setAttribute('href', `./photographer.html?id=${id}`);
+    link.setAttribute('href', `/pages/photographer/photographer.html?id=${id}`);
     link.setAttribute('aria-label', `Voir la page de ${name}`);
     h2.textContent = name;
     img.setAttribute("src", pictureUrl);
@@ -32,6 +32,8 @@ export default function userCard(data) {
     link.appendChild(cite);
     link.appendChild(priceEl);
 
-    return (article);
+    return {
+        element: article,
+    }
 }
 

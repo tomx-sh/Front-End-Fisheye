@@ -13,7 +13,7 @@ class Media {
         this.#id = id
         this.#photographerId = photographerId
         this.#fileName = fileName
-        this.#fileUrl = `assets/photographers/${photographerId}/${fileName}`
+        this.#fileUrl = `/public/photographers/${photographerId}/${fileName}`
         this.#title = title
         this.#likes = likes
         this.#date = date

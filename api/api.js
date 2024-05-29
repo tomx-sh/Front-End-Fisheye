@@ -5,7 +5,7 @@ export default class Api {
             return Api.instance
 
         } else {
-            this._url = 'data/photographers.json'
+            this._url = '/public/data/photographers.json'
             Api.instance = this
             Api.exists = true
             return this
