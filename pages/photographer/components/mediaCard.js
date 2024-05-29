@@ -1,4 +1,4 @@
-export default function mediaCard({type, href, mediaUrl, caption, likes, likeCallback}) {
+export default function MediaCard({type, href, mediaUrl, caption, likes, date}) {
 
     // Create the DOM elements
     const link      = document.createElement('a');
@@ -22,7 +22,20 @@ export default function mediaCard({type, href, mediaUrl, caption, likes, likeCal
     likesBtn.setAttribute('id', 'likesBtn');
     likesBtn.dataset.liked = 'false';
     likesBtn.textContent = likes + ' ♡';
-    likesBtn.addEventListener('click', (event) => like(event, likeCallback));
+
+    likesBtn.addEventListener('click', (event) => {
+        event.preventDefault();
+        const button = event.target; // Get the button
+        const likes = parseInt(button.textContent); // Get the number of likes
+        // Depending on the state of the button, increment or decrement the number of likes
+        if (button.dataset.liked === 'false') {
+            button.textContent = likes + 1 + ' ♥';
+            button.dataset.liked = 'true';
+        } else {
+            button.textContent = likes - 1 + ' ♡';
+            button.dataset.liked = 'false';
+        }
+    })
 
     // Assemble the DOM elements
     link.appendChild(figure);
@@ -31,9 +44,28 @@ export default function mediaCard({type, href, mediaUrl, caption, likes, likeCal
     details.appendChild(captionEl);
     details.appendChild(likesBtn);
 
-    return (link);
+    return {
+        element: link,
+
+        onLike: (callback) => {
+            likesBtn.addEventListener('click', (event) => {
+                event.preventDefault();
+                callback();
+            });
+        },
+
+        getLikes: () => { return parseInt(likesBtn.textContent); },
+
+        getCaption: () => { return caption; },
+
+        getDate: () => { return date; }
+    }
 }
 
+
+
+
+/*
 // TODO: Ajouter un callback pour le bouton de like ?
 function like(event, callback) {
     event.preventDefault();
@@ -62,5 +94,6 @@ function like(event, callback) {
     const totalLikes = Array.from(allLikes).reduce((acc, btn) => {
         return acc + parseInt(btn.textContent);
     }, 0);
-    setLikesTotal(totalLikes);*/
+    setLikesTotal(totalLikes);
 }
+*/

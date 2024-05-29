@@ -1,81 +1,10 @@
 import Api from "/api/api.js";
+import PhotographerHero from "./components/PhotographerHero.js";
 import { MediaFactory } from "./utils/Media.js";
-import mediaCard from "./components/mediaCard.js";
-import photographerHero from "./components/photographerHero.js";
+import MediaCard from "./components/MediaCard.js";
+import MediaGrid from "./components/MediaGrid.js";
+import StickyTab from "./components/StickyTab.js";
 
-
-async function getPhotographer(id) {
-    const api = new Api();
-    const photographer = await api.fetchPhotographerById(id);
-    return ({photographer});
-}
-
-
-async function getMedia(id) {
-    const api = new Api();
-    const media = await api.fetchMediaByPhotographerId(id);
-    return ({media});
-}
-
-
-/**
- * Sorts an array of media objects by a given criteria
- * Criteria can be 'popularity', 'date' or 'title'
- */
-function sortMedia({criteria, mediaObjects}) {
-    console.log('sort by', criteria);
-
-    // Clone the array to avoid side effects
-    const sortedMediaObjects = [...mediaObjects]
-
-    switch (criteria) {
-        case 'popularity':
-            sortedMediaObjects.sort((a, b) => b.getLikes() - a.getLikes());
-            break;
-
-        case 'date':
-            sortedMediaObjects.sort((a, b) => b.getDate() - a.getDate())
-            break;
-
-        case 'title':
-            sortedMediaObjects.sort((a, b) => a.getTitle().localeCompare(b.getTitle()));
-            break;
-    }
-
-    return sortedMediaObjects;
-}
-
-
-/**
- * Creates an array of DOM elements ('media cards')
- * from an array of media objects
- */
-function createMediaCards(mediaObjects, likeCallback) {
-    return mediaObjects
-        .map(media => mediaCard({
-            type: media.getType(),
-            href: `/`,
-            mediaUrl: media.getFileUrl(),
-            caption: media.getTitle(),
-            likes: media.getLikes(),
-            likeCallback: likeCallback
-        }));
-}
-
-
-/**
- * Sets the total likes count to the DOM sticky element
- */
-export function setLikesTotal(total) {
-    const totalLikesEl = document.getElementById('likes-total');
-    totalLikesEl.textContent = total + ' ♥';
-}
-
-
-function setPrice(price) {
-    const priceEl = document.getElementById('price');
-    priceEl.textContent = price + '€ / jour';
-}
 
 
 async function init() {
@@ -83,55 +12,58 @@ async function init() {
     const urlParams = new URLSearchParams(window.location.search);
     const id = urlParams.get('id');
 
-    // Get DOM elements
-    const filterEl = document.getElementById('filter');
+    // Fetch data
+    const api = new Api();
+    const photographer = await api.fetchPhotographerById(id);
+    const media = await api.fetchMediaByPhotographerId(id);
 
-    // fetch data
-    const { photographer } = await getPhotographer(id);
-    const { media } = await getMedia(id);
-
-    // Create hero
-    const hero = photographerHero({
+    // Append photographer hero
+    const photographerHero = PhotographerHero({
         name: photographer.name,
         city: photographer.city,
         country: photographer.country,
         tagline: photographer.tagline,
         portraitUrl: `/public/photographers/Photographers_ID_Photos/${photographer.portrait}`
     });
-
-    // Set total likes
-    const totalLikes = media.reduce((acc, cur) => acc + cur.likes, 0);
-    setLikesTotal(totalLikes);
-
-    // Set price
-    setPrice(photographer.price);
-
-    // Create media objects
-    let mediaObjects = media.map(m => new MediaFactory(m));
-
-    // Sort media objects by current filter criteria
-    mediaObjects = sortMedia({criteria: filterEl.value, mediaObjects: mediaObjects});
-
-    // Create media cards from media objects
-    const mediaCards = createMediaCards(mediaObjects);
-
-    // Set data to the DOM
     const heroContainer = document.querySelector('#photographer-info');
-    heroContainer.replaceWith(hero);
-    const mediaContainer = document.querySelector('#photo-grid');
-    mediaCards.forEach(card => mediaContainer.appendChild(card));
+    heroContainer.replaceWith(photographerHero.element);
 
-    // Add event listener to the filter
-    filterEl.addEventListener('change', (event) => {
-        // Remove all media cards from the DOM
-        document.querySelectorAll('.media-card').forEach(card => card.remove());
-        // Sort media objects
-        const sortedMediaObjects = sortMedia({criteria: event.target.value, mediaObjects: mediaObjects});
-        // Create media cards from sorted media objects
-        const sortedMediaCards = createMediaCards(sortedMediaObjects);
-        // Add media cards back to the DOM
-        sortedMediaCards.forEach(card => mediaContainer.appendChild(card));
+    // Create media cards
+    const mediaObjects = media.map(m => new MediaFactory(m));
+    const mediaCards = mediaObjects.map(media => MediaCard({
+        type: media.getType(),
+        href: `/`,
+        mediaUrl: media.getFileUrl(),
+        caption: media.getTitle(),
+        likes: media.getLikes(),
+        date: media.getDate()
+    }));
+
+    // Use them in a media grid
+    const mediaGrid = MediaGrid(mediaCards);
+    const mediaGridContainer = document.querySelector('#photographer-media');
+    mediaGridContainer.appendChild(mediaGrid.element);
+
+    // Append sticky tab
+    const stickyTab = StickyTab({
+        likes: mediaGrid.getTotalLikes(),
+        price: photographer.price
     });
+    const stickyTabContainer = document.querySelector('#main');
+    stickyTabContainer.appendChild(stickyTab.element);
+
+    // Update sticky tab with total likes
+    mediaCards.forEach(card => card.onLike(() => {
+        stickyTab.setLikesTotal(mediaGrid.getTotalLikes());
+    }));
+
+    // Sort media cards
+    const filterEl = document.getElementById('filter');
+    mediaGrid.sortBy(filterEl.value);
+    filterEl.addEventListener('change', () => {
+        mediaGrid.sortBy(filterEl.value);
+    });
+    
 }
 
 init();

@@ -1,4 +1,4 @@
-export default function photographerHero({name, city, country, tagline, portraitUrl}) {
+export default function PhotographerHero({name, city, country, tagline, portraitUrl}) {
     // Create DOM elements
     const section = document.createElement('section');
     const div = document.createElement('div');
@@ -36,22 +36,7 @@ export default function photographerHero({name, city, country, tagline, portrait
     section.appendChild(button);
     section.appendChild(avatarEl);
 
-    return (section);
+    return {
+        element: section,
+    }
 }
-
-
-/*
-<section id="photographer-info">
-            
-    <div aria-label="Photographer's information">
-        <h1 id="name"></h1>
-        <address id="location"></address>
-        <cite id="tagline"></cite>
-    </div>
-    
-    <button id="contact_button" role="display contact modal" onclick="displayModal()">Contactez-moi</button>
-    
-    <img id="avatar"/>
-    
-</section>
-*/
