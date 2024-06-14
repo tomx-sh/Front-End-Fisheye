@@ -8,13 +8,13 @@ export default function MediaGrid(mediaCards) {
 
         sortBy: (criteria) => {
             switch (criteria) {
-                case 'popularity':
+                case 'POPULARITY':
                     mediaCards.sort((a, b) => b.getLikes() - a.getLikes());
                     break;
-                case 'date':
+                case 'DATE':
                     mediaCards.sort((a, b) => new Date(b.getDate()) - new Date(a.getDate()));
                     break;
-                case 'title':
+                case 'TITLE':
                     mediaCards.sort((a, b) => a.getCaption().localeCompare(b.getCaption()));
                     break;
             }

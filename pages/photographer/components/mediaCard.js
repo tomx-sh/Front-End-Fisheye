@@ -61,39 +61,3 @@ export default function MediaCard({type, href, mediaUrl, caption, likes, date}) 
         getDate: () => { return date; }
     }
 }
-
-
-
-
-/*
-// TODO: Ajouter un callback pour le bouton de like ?
-function like(event, callback) {
-    event.preventDefault();
-
-    // Get the button
-    const button = event.target;
-
-    // Get the number of likes
-    const likes = parseInt(button.textContent);
-
-    // Depending on the state of the button, increment or decrement the number of likes
-    if (button.dataset.liked === 'false') {
-        button.textContent = likes + 1 + ' ♥';
-        button.dataset.liked = 'true';
-    } else {
-        button.textContent = likes - 1 + ' ♡';
-        button.dataset.liked = 'false';
-    }
-
-    // Call the callback
-    callback();
-
-    // Update the total likes count
-    /*
-    const allLikes = document.querySelectorAll('#likesBtn');
-    const totalLikes = Array.from(allLikes).reduce((acc, btn) => {
-        return acc + parseInt(btn.textContent);
-    }, 0);
-    setLikesTotal(totalLikes);
-}
-*/

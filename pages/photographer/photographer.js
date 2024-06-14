@@ -4,6 +4,7 @@ import { MediaFactory } from "./utils/Media.js";
 import MediaCard from "./components/MediaCard.js";
 import MediaGrid from "./components/MediaGrid.js";
 import StickyTab from "./components/StickyTab.js";
+import Select from "./components/Select.js";
 
 
 
@@ -17,7 +18,7 @@ async function init() {
     const photographer = await api.fetchPhotographerById(id);
     const media = await api.fetchMediaByPhotographerId(id);
 
-    // Append photographer hero
+    // Create and append photographer hero
     const photographerHero = PhotographerHero({
         name: photographer.name,
         city: photographer.city,
@@ -25,8 +26,11 @@ async function init() {
         tagline: photographer.tagline,
         portraitUrl: `/public/photographers/Photographers_ID_Photos/${photographer.portrait}`
     });
-    const heroContainer = document.querySelector('#photographer-info');
-    heroContainer.replaceWith(photographerHero.element);
+    document.querySelector('#photographer-info').replaceWith(photographerHero.element);
+
+    // Append select (filter)
+    const select = Select();
+    document.querySelector('#photographer-media').appendChild(select.element);
 
     // Create media cards
     const mediaObjects = media.map(m => new MediaFactory(m));
@@ -39,30 +43,38 @@ async function init() {
         date: media.getDate()
     }));
 
-    // Use them in a media grid
+    // Create and append media grid
     const mediaGrid = MediaGrid(mediaCards);
-    const mediaGridContainer = document.querySelector('#photographer-media');
-    mediaGridContainer.appendChild(mediaGrid.element);
+    document.querySelector('#photographer-media').appendChild(mediaGrid.element);
 
     // Append sticky tab
     const stickyTab = StickyTab({
         likes: mediaGrid.getTotalLikes(),
         price: photographer.price
     });
-    const stickyTabContainer = document.querySelector('#main');
-    stickyTabContainer.appendChild(stickyTab.element);
+    document.querySelector('#main').appendChild(stickyTab.element);
 
     // Update sticky tab with total likes
     mediaCards.forEach(card => card.onLike(() => {
         stickyTab.setLikesTotal(mediaGrid.getTotalLikes());
     }));
 
-    // Sort media cards
-    const filterEl = document.getElementById('filter');
-    mediaGrid.sortBy(filterEl.value);
-    filterEl.addEventListener('change', () => {
-        mediaGrid.sortBy(filterEl.value);
+    // Sort media grid
+    mediaGrid.sortBy('POPULARITY');
+
+    select.onSelect('DATE', () => {
+        mediaGrid.sortBy('DATE');
     });
+
+    select.onSelect('TITLE', () => {
+        mediaGrid.sortBy('TITLE');
+    });
+
+    select.onSelect('POPULARITY', () => {
+        mediaGrid.sortBy('POPULARITY');
+    });
+
+    
     
 }
 
