@@ -1,6 +1,8 @@
 /*
 <div class="dropdown">
+
     <button class="dropbtn">Dropdown</button>
+
     <div class="dropdown-content">
         <button>popularity</button>
         <hr/>
@@ -8,7 +10,9 @@
         <hr/>
         <button>title</button>
     </div>
+
     <span class="material-symbols-outlined">keyboard_arrow_down</span>
+    
 </div>
 */
 
