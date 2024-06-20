@@ -14,7 +14,7 @@ export default function PhotographerHero({name, city, country, tagline, portrait
     nameEl.setAttribute('id', 'name');
     locationEl.setAttribute('id', 'location');
     taglineEl.setAttribute('id', 'tagline');
-    button.setAttribute('id', 'contact_button');
+    button.setAttribute('class', 'contact_button');
     button.setAttribute('role', 'display contact modal');
     button.setAttribute('onclick', 'displayModal()');
     avatarEl.setAttribute('id', 'avatar');

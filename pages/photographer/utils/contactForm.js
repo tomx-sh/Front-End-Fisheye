@@ -1,9 +1,9 @@
+const dialog = document.getElementById("contact_dialog");
+
 function displayModal() {
-    const modal = document.getElementById("contact_modal");
-	modal.style.display = "block";
+    dialog.showModal();
 }
 
 function closeModal() {
-    const modal = document.getElementById("contact_modal");
-    modal.style.display = "none";
+    dialog.close();
 }
