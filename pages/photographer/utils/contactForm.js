@@ -8,5 +8,4 @@ function closeModal() {
     dialog.close();
 }
 
-// TODO : bouton fermer clavier
-// Penser à la validation des données
+// TODO: Validation des données ?
