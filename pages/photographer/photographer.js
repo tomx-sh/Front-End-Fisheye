@@ -5,6 +5,7 @@ import MediaCard from "./components/MediaCard.js";
 import MediaGrid from "./components/MediaGrid.js";
 import StickyTab from "./components/StickyTab.js";
 import Select from "./components/Select.js";
+import Carousel from "./components/Carousel.js";
 
 
 
@@ -36,7 +37,6 @@ async function init() {
     const mediaObjects = media.map(m => new MediaFactory(m));
     const mediaCards = mediaObjects.map(media => MediaCard({
         type: media.getType(),
-        href: `/`,
         mediaUrl: media.getFileUrl(),
         caption: media.getTitle(),
         likes: media.getLikes(),
@@ -61,23 +61,24 @@ async function init() {
 
     // Sort media grid
     mediaGrid.sortBy('POPULARITY');
+    select.onSelect('DATE',       () => { mediaGrid.sortBy('DATE')});
+    select.onSelect('TITLE',      () => { mediaGrid.sortBy('TITLE')});
+    select.onSelect('POPULARITY', () => { mediaGrid.sortBy('POPULARITY')});
 
-    select.onSelect('DATE', () => {
-        mediaGrid.sortBy('DATE');
-    });
-
-    select.onSelect('TITLE', () => {
-        mediaGrid.sortBy('TITLE');
-    });
-
-    select.onSelect('POPULARITY', () => {
-        mediaGrid.sortBy('POPULARITY');
-    });
-
-    // Contact form
-    // Attach contact name
+    // Contact form: attach contact name
     const contactNameEl = document.getElementById("contact-name");
     contactNameEl.textContent = photographer.name;
+
+    // Carousel
+    const carousel = Carousel({ mediaArray: mediaObjects, index: 0});
+    document.body.appendChild(carousel.element);
+
+    mediaCards.forEach((card, index) => {
+        card.onClick(() => {
+            carousel.show();
+            carousel.showIndex(index);
+        });
+    });
 
     
     

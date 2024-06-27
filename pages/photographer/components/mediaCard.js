@@ -1,7 +1,7 @@
-export default function MediaCard({type, href, mediaUrl, caption, likes, date}) {
+export default function MediaCard({type, mediaUrl, caption, likes, date}) {
 
     // Create the DOM elements
-    const link      = document.createElement('a');
+    const card      = document.createElement('div');
     const figure    = document.createElement('figure');
     const media     = document.createElement((type === 'video') ? 'video' : 'img');
     const details   = document.createElement('div');
@@ -9,9 +9,8 @@ export default function MediaCard({type, href, mediaUrl, caption, likes, date}) 
     const likesBtn  = document.createElement('button');
 
     // Set data to the DOM elements
-    link.setAttribute('href', href);
-    link.setAttribute('aria-label', caption);
-    link.setAttribute('class', 'media-card');
+    card.setAttribute('aria-label', caption);
+    card.setAttribute('class', 'media-card');
     media.setAttribute('class', 'media');
     media.setAttribute("src", mediaUrl);
     media.setAttribute("alt", caption);
@@ -38,17 +37,24 @@ export default function MediaCard({type, href, mediaUrl, caption, likes, date}) 
     })
 
     // Assemble the DOM elements
-    link.appendChild(figure);
+    card.appendChild(figure);
     figure.appendChild(media);
     figure.appendChild(details);
     details.appendChild(captionEl);
     details.appendChild(likesBtn);
 
     return {
-        element: link,
+        element: card,
 
         onLike: (callback) => {
             likesBtn.addEventListener('click', (event) => {
+                event.preventDefault();
+                callback();
+            });
+        },
+
+        onClick: (callback) => {
+            media.addEventListener('click', (event) => {
                 event.preventDefault();
                 callback();
             });
