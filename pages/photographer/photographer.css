@@ -152,18 +152,23 @@
     backdrop-filter: blur(10px);
 }
 
-#contact_dialog header {
-    justify-content: space-between;
-    width: 100%;
-}
 
-#contact_dialog header img {
+#contact_dialog #close_btn {
     cursor: pointer;
     height: 20px;
+    position: absolute;
+    right: 20px;
+    top: 20px;
 }
 
 #contact_dialog header h2 {
     font-size: 2rem;
+    margin: 0;
+}
+
+#contact_dialog header p {
+    font-size: 2rem;
+    margin-top: 0;
 }
 
 form {

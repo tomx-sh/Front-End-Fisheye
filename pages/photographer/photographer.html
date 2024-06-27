@@ -13,7 +13,7 @@
 
 <body>
     
-    <header>
+    <header id="main_header">
         <a href="/index.html" aria-label="Fisheye Home Page">
             <img src="/public/images/logo.png" class="logo" alt="fisheye logo"/>
         </a>
@@ -43,9 +43,12 @@
         
     <!-- Modal -->
     <dialog id="contact_dialog">
+
+        <img id='close_btn' src="/public/icons/close.svg" onclick="closeModal()" />
+
         <header>
             <h2>Contactez-moi</h2>
-            <img src="/public/icons/close.svg" onclick="closeModal()" />
+            <p id="contact-name">Nom du photographe</p>
         </header>
     
     

@@ -74,6 +74,11 @@ async function init() {
         mediaGrid.sortBy('POPULARITY');
     });
 
+    // Contact form
+    // Attach contact name
+    const contactNameEl = document.getElementById("contact-name");
+    contactNameEl.textContent = photographer.name;
+
     
     
 }
