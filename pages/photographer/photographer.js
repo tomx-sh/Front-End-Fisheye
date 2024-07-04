@@ -36,6 +36,7 @@ async function init() {
     // Create media cards
     const mediaObjects = media.map(m => new MediaFactory(m));
     const mediaCards = mediaObjects.map(media => MediaCard({
+        id: media.getId(),
         type: media.getType(),
         mediaUrl: media.getFileUrl(),
         caption: media.getTitle(),
@@ -70,15 +71,20 @@ async function init() {
     contactNameEl.textContent = photographer.name;
 
     // Carousel
-    const carousel = Carousel({ mediaArray: mediaObjects, index: 0});
+    const carousel = Carousel({ mediaArray: mediaObjects});
     document.body.appendChild(carousel.element);
 
-    mediaCards.forEach((card, index) => {
+    mediaCards.forEach((card) => {
         card.onClick(() => {
-            carousel.show();
-            carousel.showIndex(index);
+            carousel.show(card.getId());
         });
     });
+
+    // Sort carousel
+    carousel.sortBy('POPULARITY');
+    select.onSelect('DATE',       () => { carousel.sortBy('DATE')});
+    select.onSelect('TITLE',      () => { carousel.sortBy('TITLE')});
+    select.onSelect('POPULARITY', () => { carousel.sortBy('POPULARITY')});
 
     
     

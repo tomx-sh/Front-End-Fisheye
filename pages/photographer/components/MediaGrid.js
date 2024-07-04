@@ -3,6 +3,12 @@ export default function MediaGrid(mediaCards) {
     grid.setAttribute('id', 'photo-grid');
     mediaCards.forEach(card => grid.appendChild(card.element));
 
+    // Styles
+    const link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.href = '/pages/photographer/components/MediaGrid.css';
+    document.head.appendChild(link);
+
     return {
         element: grid,
 

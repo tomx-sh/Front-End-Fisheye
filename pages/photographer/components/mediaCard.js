@@ -1,4 +1,4 @@
-export default function MediaCard({type, mediaUrl, caption, likes, date}) {
+export default function MediaCard({id, type, mediaUrl, caption, likes, date}) {
 
     // Create the DOM elements
     const card      = document.createElement('div');
@@ -64,6 +64,10 @@ export default function MediaCard({type, mediaUrl, caption, likes, date}) {
 
         getCaption: () => { return caption; },
 
-        getDate: () => { return date; }
+        getDate: () => { return date; },
+
+        getMediaUrl: () => { return mediaUrl; },
+
+        getId: () => { return id; }
     }
 }

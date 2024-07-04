@@ -1,4 +1,11 @@
-export default function Carousel({mediaArray, index}) {
+export default function Carousel({mediaArray}) {
+
+    // Create a copy of the mediaArray, that can be sorted
+    const mediaArrayCopy = [...mediaArray];
+
+    // Index of the current media
+    let index = 0;
+
     // Create the DOM elements
     const dialog = document.createElement('dialog');
     const carousel = document.createElement('div');
@@ -12,15 +19,15 @@ export default function Carousel({mediaArray, index}) {
     dialog.setAttribute('class', 'dialog');
     carousel.setAttribute('class', 'carousel');
     media.setAttribute('class', 'carousel-media');
-    media.setAttribute('src', mediaArray[index].getFileUrl());
-    media.setAttribute('alt', mediaArray[index].caption);
+    media.setAttribute('src', mediaArrayCopy[index].getFileUrl());
+    media.setAttribute('alt', mediaArrayCopy[index].caption);
     prevBtn.setAttribute('class', 'prev');
     prevBtn.textContent = '<';
     nextBtn.setAttribute('class', 'next');
     nextBtn.textContent = '>';
     closeBtn.setAttribute('class', 'close');
     closeBtn.textContent = 'X';
-    caption.textContent = mediaArray[index].caption;
+    caption.textContent = mediaArrayCopy[index].caption;
 
     // Assemble the DOM elements
     dialog.appendChild(carousel);
@@ -34,16 +41,16 @@ export default function Carousel({mediaArray, index}) {
     prevBtn.addEventListener('click', () => {
         if (index > 0) {
             index--;
-            media.setAttribute('src', mediaArray[index].getFileUrl());
-            caption.textContent = mediaArray[index].caption;
+            media.setAttribute('src', mediaArrayCopy[index].getFileUrl());
+            caption.textContent = mediaArrayCopy[index].caption;
         }
     });
 
     nextBtn.addEventListener('click', () => {
-        if (index < mediaArray.length - 1) {
+        if (index < mediaArrayCopy.length - 1) {
             index++;
-            media.setAttribute('src', mediaArray[index].getFileUrl());
-            caption.textContent = mediaArray[index].caption;
+            media.setAttribute('src', mediaArrayCopy[index].getFileUrl());
+            caption.textContent = mediaArrayCopy[index].caption;
         }
     });
 
@@ -63,7 +70,10 @@ export default function Carousel({mediaArray, index}) {
     return {
         element: dialog,
 
-        show: () => {
+        show: (id) => {
+            index = mediaArrayCopy.findIndex(media => media.getId() == id);
+            media.setAttribute('src', mediaArrayCopy[index].getFileUrl());
+            caption.textContent = mediaArrayCopy[index].caption;
             dialog.showModal();
         },
 
@@ -71,10 +81,21 @@ export default function Carousel({mediaArray, index}) {
             dialog.close();
         },
 
-        showIndex: (newIndex) => {
-            index = newIndex;
-            media.setAttribute('src', mediaArray[index].getFileUrl());
-            caption.textContent = mediaArray[index].caption;
+        sortBy: (criteria) => {
+            switch (criteria) {
+                case 'POPULARITY':
+                    mediaArrayCopy.sort((a, b) => b.getLikes() - a.getLikes());
+                    break;
+                case 'DATE':
+                    mediaArrayCopy.sort((a, b) => new Date(b.getDate()) - new Date(a.getDate()));
+                    break;
+                case 'TITLE':
+                    mediaArrayCopy.sort((a, b) => a.getTitle().localeCompare(b.getTitle()));
+                    break;
+            }
+
+            media.setAttribute('src', mediaArrayCopy[index].getFileUrl());
+            caption.textContent = mediaArrayCopy[index].caption;
         }
     }
 }

@@ -1,0 +1,30 @@
+#photo-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 3rem;
+}
+
+#photo-grid a {
+    text-decoration: none;
+}
+
+#photo-grid figure {
+    margin: 0;
+}
+
+#photo-grid .media {
+    width: 100%;
+    aspect-ratio: 1/1;
+    object-fit: cover;
+    border-radius: 5px;
+    cursor: pointer;
+    display: block;
+}
+
+#photo-grid .details {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #901C1C;
+    font-size: 1.2rem;
+}
