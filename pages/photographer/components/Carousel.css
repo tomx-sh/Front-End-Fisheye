@@ -1,6 +1,6 @@
 .dialog {
-    width: 70%;
-    height: 70%;
+    width: calc(100% - 8em);
+    height: calc(100% - 8em);
 }
 
 .carousel {

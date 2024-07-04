@@ -154,7 +154,8 @@
 
 
 #contact_dialog #close_btn {
-    all: unset;
+    border: none;
+    background-color: transparent;  
     cursor: pointer;
     height: 20px;
     position: absolute;

@@ -22,6 +22,11 @@ export default function MediaGrid(mediaCards) {
             mediaCards.forEach(card => grid.appendChild(card.element));
         },
 
+        onSort(callback) {
+
+            //callback();
+        },
+
         getTotalLikes: () => mediaCards.reduce((acc, card) => acc + card.getLikes(), 0)
     }
 }
