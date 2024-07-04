@@ -22,6 +22,7 @@ function submitForm(event) {
 
     // TODO: Validation des données ?
 
+    event.target.reset();
     closeModal();
 
 }
