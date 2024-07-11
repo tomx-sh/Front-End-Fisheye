@@ -21,8 +21,8 @@ async function init() {
 
     // Create and append photographer hero
     const photographerHero = PhotographerHero({
-        name: photographer.name,
-        city: photographer.city,
+        name:    photographer.name,
+        city:    photographer.city,
         country: photographer.country,
         tagline: photographer.tagline,
         portraitUrl: `/public/photographers/Photographers_ID_Photos/${photographer.portrait}`
@@ -36,12 +36,12 @@ async function init() {
     // Create media cards
     const mediaObjects = media.map(m => new MediaFactory(m));
     const mediaCards = mediaObjects.map(media => MediaCard({
-        id: media.getId(),
-        type: media.getType(),
+        id:       media.getId(),
+        type:     media.getType(),
         mediaUrl: media.getFileUrl(),
-        caption: media.getTitle(),
-        likes: media.getLikes(),
-        date: media.getDate()
+        caption:  media.getTitle(),
+        likes:    media.getLikes(),
+        date:     media.getDate()
     }));
 
     // Create and append media grid
@@ -66,18 +66,13 @@ async function init() {
     select.onSelect('TITLE',      () => { mediaGrid.sortBy('TITLE')});
     select.onSelect('POPULARITY', () => { mediaGrid.sortBy('POPULARITY')});
 
-    // Contact form: attach contact name
-    const contactNameEl = document.getElementById("contact-name");
-    contactNameEl.textContent = photographer.name;
 
     // Carousel
     const carousel = Carousel({ mediaArray: mediaObjects});
     document.body.appendChild(carousel.element);
 
     mediaCards.forEach((card) => {
-        card.onClick(() => {
-            carousel.show(card.getId());
-        });
+        card.onClick(() => carousel.show(card.getId()));
     });
 
     // Sort carousel
@@ -86,8 +81,13 @@ async function init() {
     select.onSelect('TITLE',      () => { carousel.sortBy('TITLE')});
     select.onSelect('POPULARITY', () => { carousel.sortBy('POPULARITY')});
 
-    
-    
+    // Debug
+    carousel.show(mediaObjects[1].getId());
+
+    // Contact form: attach contact name
+    const contactNameEl = document.getElementById("contact-name");
+    contactNameEl.textContent = photographer.name;
+
 }
 
 init();

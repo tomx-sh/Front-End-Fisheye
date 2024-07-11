@@ -1,15 +1,37 @@
-.dialog {
+.carousel-dialog {
     width: calc(100% - 8em);
     height: calc(100% - 8em);
+    background-color: transparent;
+    padding: 0;
+}
+
+.carousel-dialog::backdrop {
+    background-color: rgba(255, 255, 255, 0.694);
+    backdrop-filter: blur(10px);
 }
 
 .carousel {
     display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    height: 100%;
+}
+
+
+.carousel-figure {
+    background-color: aqua;
+    /*display: flex;
+    flex-direction: column;*/
+    max-height: 100%;
+    overflow: hidden;
 }
 
 .carousel-media {
-    width: 300px;
-    height: 300px;
+    width: 100%;
+    height: 100%;
+    max-height: 100%;
+    object-fit: contain;
 }
 
 .close {
