@@ -18,17 +18,17 @@ export default function Carousel({mediaArray}) {
     
     // Set data to the DOM elements
     dialog.setAttribute('class', 'carousel-dialog');
-    figure.setAttribute('class', 'carousel-figure');
     carousel.setAttribute('class', 'carousel');
+    figure.setAttribute('class', 'carousel-figure');
     media.setAttribute('class', 'carousel-media');
     media.setAttribute('src', mediaArrayCopy[index].getFileUrl());
     media.setAttribute('alt', mediaArrayCopy[index].getTitle());
     prevBtn.setAttribute('class', 'prev');
-    prevBtn.textContent = '<';
+    prevBtn.innerHTML = '<img src="/public/icons/chevron.svg" />';
     nextBtn.setAttribute('class', 'next');
-    nextBtn.textContent = '>';
+    nextBtn.innerHTML = '<img src="/public/icons/chevron.svg" />';
     closeBtn.setAttribute('class', 'close');
-    closeBtn.textContent = 'X';
+    closeBtn.innerHTML = '<img src="/public/icons/closeCarousel.svg" />';
     caption.textContent = mediaArrayCopy[index].getTitle();
 
     // Assemble the DOM elements

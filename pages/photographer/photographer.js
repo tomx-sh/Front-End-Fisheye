@@ -82,7 +82,7 @@ async function init() {
     select.onSelect('POPULARITY', () => { carousel.sortBy('POPULARITY')});
 
     // Debug
-    carousel.show(mediaObjects[1].getId());
+    //carousel.show(mediaObjects[1].getId());
 
     // Contact form: attach contact name
     const contactNameEl = document.getElementById("contact-name");

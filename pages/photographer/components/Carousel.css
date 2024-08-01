@@ -7,37 +7,78 @@
 }
 
 .carousel-dialog::backdrop {
-    background-color: rgba(255, 255, 255, 0.694);
+    background-color: rgba(255, 255, 255, 0.843);
     backdrop-filter: blur(10px);
 }
 
 .carousel {
     position: absolute;
     inset: 0;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    grid-template-rows: 100%;
+    gap: 40px;
+    padding: 40px;
+    /* align-items: center; */
+    /* justify-items: center; */
+    place-items: center;
 }
 
+.prev, .next {
+    width:  30px;
+    height: 30px;
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+    padding: 0;
+}
+
+.prev {
+    transform: rotate(90deg);
+}
+
+.next {
+    transform: rotate(270deg);
+}
 
 .carousel-figure {
-    max-height: 100%;
-    width: auto;
+    height: 100%;
+    /* overflow: clip; */
     margin: 0;
     display: grid;
-    grid-template-rows: 1fr auto;
+    gap: 1rem;
+    /* flex-direction: column; */
+    align-items: flex-start;
+    justify-items: center;
+    /* width: fit-content; */
+    grid-template-rows: auto auto;
+    align-self: center;
+    justify-self: center;
+    /* flex-wrap: wrap; */
+    /* width: fit-content; */
 }
 
 .carousel-figure figcaption {
-    text-align: center;
+    /* text-align: center; */
+    /*width: 200px;*/
+    justify-self: start;
+    color: #901C1C;
+    font-size: 1.2rem;
 }
 
 .carousel-media {
-    justify-self: center;
+    /* justify-self: center; */
+    /* align-self: center; */
+    /* width: 100%; */
     max-width: 100%;
     max-height: 100%;
-    object-fit: contain;
+    /* object-fit: scale-down; */
     overflow: hidden;
+    width: fit-content;
+    height: fit-content;
+    align-self: end;
+    border-radius: 5px;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
 }
 
 .close {
@@ -46,4 +87,6 @@
     right: 0;
     padding: 5px;
     cursor: pointer;
+    border: none;
+    background-color: transparent;
 }
