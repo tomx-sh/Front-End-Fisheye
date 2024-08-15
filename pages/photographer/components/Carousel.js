@@ -11,18 +11,29 @@ export default function Carousel({mediaArray}) {
     const carousel = document.createElement('div');
     const figure   = document.createElement('figure');
     const caption  = document.createElement('figcaption');
-    const media    = document.createElement('img');
     const prevBtn  = document.createElement('button');
     const nextBtn  = document.createElement('button');
     const closeBtn = document.createElement('button');
+    // For the media element, create both an image and a video element
+    const photo = document.createElement('img');
+    const video = document.createElement('video');
+    video.setAttribute('controls', 'controls');
+
+    function setCorrectMediaElement() {
+        const media = mediaArrayCopy[index].getType() === 'photo' ? photo : video;
+        media.setAttribute('class', 'carousel-media');
+        media.setAttribute('src', mediaArrayCopy[index].getFileUrl());
+        media.setAttribute('alt', mediaArrayCopy[index].getTitle());
+
+        figure.innerHTML = '';
+        figure.appendChild(media);
+        figure.appendChild(caption);
+    }
     
     // Set data to the DOM elements
     dialog.setAttribute('class', 'carousel-dialog');
     carousel.setAttribute('class', 'carousel');
     figure.setAttribute('class', 'carousel-figure');
-    media.setAttribute('class', 'carousel-media');
-    media.setAttribute('src', mediaArrayCopy[index].getFileUrl());
-    media.setAttribute('alt', mediaArrayCopy[index].getTitle());
     prevBtn.setAttribute('class', 'prev');
     prevBtn.innerHTML = '<img src="/public/icons/chevron.svg" />';
     nextBtn.setAttribute('class', 'next');
@@ -35,16 +46,15 @@ export default function Carousel({mediaArray}) {
     dialog.appendChild(carousel);
     carousel.appendChild(prevBtn);
     carousel.appendChild(figure);
-    figure.appendChild(media);
-    figure.appendChild(caption);
     carousel.appendChild(nextBtn);
     carousel.appendChild(closeBtn);
+    setCorrectMediaElement();
 
     // Add event listeners
     prevBtn.addEventListener('click', () => {
         if (index > 0) {
             index--;
-            media.setAttribute('src', mediaArrayCopy[index].getFileUrl());
+            setCorrectMediaElement();
             caption.textContent = mediaArrayCopy[index].getTitle();
         }
     });
@@ -52,7 +62,7 @@ export default function Carousel({mediaArray}) {
     nextBtn.addEventListener('click', () => {
         if (index < mediaArrayCopy.length - 1) {
             index++;
-            media.setAttribute('src', mediaArrayCopy[index].getFileUrl());
+            setCorrectMediaElement();
             caption.textContent = mediaArrayCopy[index].getTitle();
         }
     });
@@ -73,7 +83,7 @@ export default function Carousel({mediaArray}) {
 
         show: (id) => {
             index = mediaArrayCopy.findIndex(media => media.getId() == id);
-            media.setAttribute('src', mediaArrayCopy[index].getFileUrl());
+            setCorrectMediaElement();
             caption.textContent = mediaArrayCopy[index].getTitle();
             dialog.showModal();
         },
@@ -95,7 +105,8 @@ export default function Carousel({mediaArray}) {
                     break;
             }
 
-            media.setAttribute('src', mediaArrayCopy[index].getFileUrl());
+            //media.setAttribute('src', mediaArrayCopy[index].getFileUrl());
+            setCorrectMediaElement();
             caption.textContent = mediaArrayCopy[index].getTitle();
         }
     }
