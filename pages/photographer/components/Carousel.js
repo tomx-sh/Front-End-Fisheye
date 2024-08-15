@@ -104,8 +104,6 @@ export default function Carousel({mediaArray}) {
                     mediaArrayCopy.sort((a, b) => a.getTitle().localeCompare(b.getTitle()));
                     break;
             }
-
-            //media.setAttribute('src', mediaArrayCopy[index].getFileUrl());
             setCorrectMediaElement();
             caption.textContent = mediaArrayCopy[index].getTitle();
         }
