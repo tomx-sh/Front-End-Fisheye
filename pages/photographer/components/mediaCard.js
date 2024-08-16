@@ -13,7 +13,7 @@ export default function MediaCard({id, type, mediaUrl, caption, likes, date}) {
     card.setAttribute('class', 'media-card');
     media.setAttribute('class', 'media');
     media.setAttribute("src", mediaUrl);
-    media.setAttribute("alt", caption);
+    media.setAttribute("alt", '');
     if (type === 'video') media.setAttribute("type", "video/mp4");
     if (type === 'video') media.setAttribute("controls", true);
     details.classList.add('details');

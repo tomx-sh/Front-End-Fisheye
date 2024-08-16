@@ -23,7 +23,7 @@ export default function Carousel({mediaArray}) {
         const media = mediaArrayCopy[index].getType() === 'photo' ? photo : video;
         media.setAttribute('class', 'carousel-media');
         media.setAttribute('src', mediaArrayCopy[index].getFileUrl());
-        media.setAttribute('alt', mediaArrayCopy[index].getTitle());
+        media.setAttribute('alt', "");
 
         figure.innerHTML = '';
         figure.appendChild(media);
@@ -35,11 +35,11 @@ export default function Carousel({mediaArray}) {
     carousel.setAttribute('class', 'carousel');
     figure.setAttribute('class', 'carousel-figure');
     prevBtn.setAttribute('class', 'prev');
-    prevBtn.innerHTML = '<img src="/public/icons/chevron.svg" />';
+    prevBtn.innerHTML = '<img src="/public/icons/chevron.svg" alt="previous"/>';
     nextBtn.setAttribute('class', 'next');
-    nextBtn.innerHTML = '<img src="/public/icons/chevron.svg" />';
+    nextBtn.innerHTML = '<img src="/public/icons/chevron.svg" alt="next"/>';
     closeBtn.setAttribute('class', 'close');
-    closeBtn.innerHTML = '<img src="/public/icons/closeCarousel.svg" />';
+    closeBtn.innerHTML = '<img src="/public/icons/closeCarousel.svg" alt="close"/>';
     caption.textContent = mediaArrayCopy[index].getTitle();
 
     // Assemble the DOM elements
