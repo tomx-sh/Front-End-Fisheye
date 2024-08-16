@@ -23,7 +23,7 @@ export default function Carousel({mediaArray}) {
         const media = mediaArrayCopy[index].getType() === 'photo' ? photo : video;
         media.setAttribute('class', 'carousel-media');
         media.setAttribute('src', mediaArrayCopy[index].getFileUrl());
-        media.setAttribute('alt', "");
+        media.setAttribute('alt', "Photo intitulée" + mediaArrayCopy[index].getTitle());
 
         figure.innerHTML = '';
         figure.appendChild(media);
