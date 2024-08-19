@@ -14,6 +14,7 @@ export default function MediaCard({id, type, mediaUrl, caption, likes, date}) {
     media.setAttribute('class', 'media');
     media.setAttribute("src", mediaUrl);
     media.setAttribute("alt", "Photo intitulée " + caption);
+    media.setAttribute('tabindex', '0'); // Make card focusable
     if (type === 'video') media.setAttribute("type", "video/mp4");
     if (type === 'video') media.setAttribute("controls", true);
     details.classList.add('details');
@@ -57,6 +58,14 @@ export default function MediaCard({id, type, mediaUrl, caption, likes, date}) {
             media.addEventListener('click', (event) => {
                 event.preventDefault();
                 callback();
+            });
+
+            // Add keyboard event listener for the card
+            media.addEventListener('keydown', (event) => {
+                if (event.key === 'Enter' || event.key === ' ') { // Enter or Space triggers opens carousel
+                    event.preventDefault();
+                    callback();
+                }
             });
         },
 
